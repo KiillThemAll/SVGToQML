@@ -19,6 +19,8 @@ public:
 
     virtual void parse(QXmlStreamReader &xml) = 0;
     virtual void addItem(QXmlStreamReader &xml) = 0;
+
+    virtual void setAttr(QString value, qint8 index) = 0;
 };
 
 

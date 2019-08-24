@@ -19,7 +19,7 @@ public:
     void parse(QXmlStreamReader &xml) override;
     void addItem(QXmlStreamReader &xml) override;
 
-    void setAttr(QString value, qint8 index);
+    void setAttr(QString value, qint8 index) override;
 };
 
 #endif // PATH_H
