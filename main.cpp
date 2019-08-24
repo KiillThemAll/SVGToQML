@@ -41,23 +41,32 @@ int main(int argc, char *argv[])
                     if (attributes.hasAttribute("id")){
                         QString id = attributes.value("id").toString();
                         xml.readNext();
-                        Path *p = nullptr;
+                        SVGItem *p = nullptr;
                         while(xml.name() != "g")
                         {
-                            if (xml.name() == "path" && xml.tokenType() == QXmlStreamReader::StartElement)
+                            if (xml.tokenType() == QXmlStreamReader::StartElement)
                             {
                                 if (p == nullptr)
                                 {
-                                    p = Path::parse(xml);
-                                    p->id = id;
-                                    p->scaleX = scaleX;
-                                    p->scaleY = scaleY;
+                                    if (xml.name() == "path")
+                                        p = new Path;
+                                    //if (xml.name() == "circle") ...
                                 }
-                                else Path::addItem(p, xml);
+                                else
+                                {
+                                    p->addItem(xml);
+                                    xml.readNext();
+                                    continue;
+                                }
+
+                                p->parse(xml);
+                                p->id = id;
+                                p->scaleX = scaleX;
+                                p->scaleY = scaleY;
                             }
                             xml.readNext();
                         }
-                        if (p != nullptr) PathItems.append(*p);
+                        if (p != nullptr) PathItems.append(*dynamic_cast<Path*>(p));
                     }
                 }
 

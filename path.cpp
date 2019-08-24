@@ -1,40 +1,29 @@
 #include "path.h"
 
-Path::Path()
+void Path::parse(QXmlStreamReader &xml)
 {
-    startX = 0;
-    startY = 0;
-}
-
-Path *Path::parse(QXmlStreamReader &xml)
-{
-
-    Path *p = new Path();
-
     QXmlStreamAttributes attributes = xml.attributes();
     if (attributes.hasAttribute("d"))
-        p->d = attributes.value("d").toString();
+        d = attributes.value("d").toString();
     if (attributes.hasAttribute("fill"))
-        p->fill = attributes.value("fill").toString();
+        fill = attributes.value("fill").toString();
     if (attributes.hasAttribute("stroke"))
-        p->stroke = attributes.value("stroke").toString();
+        stroke = attributes.value("stroke").toString();
     if (attributes.hasAttribute("stroke-linejoin"))
-        p->strokeLineJoin = attributes.value("stroke-linejoin").toString();
+        strokeLineJoin = attributes.value("stroke-linejoin").toString();
     if (attributes.hasAttribute("transform")){
         QStringList nums;
         getNumberFromQString(attributes.value("transform").toString(), nums);
-        p->startX = nums.at(0).toFloat();
-        p->startY = nums.at(1).toFloat();
+        startX = nums.at(0).toFloat();
+        startY = nums.at(1).toFloat();
     }
-
-    return p;
 }
 
-void Path::addItem(Path *p, QXmlStreamReader &xml)
+void Path::addItem(QXmlStreamReader &xml)
 {
     QXmlStreamAttributes attributes = xml.attributes();
     if (attributes.hasAttribute("d"))
-        p->d += attributes.value("d").toString();
+        d += attributes.value("d").toString();
 }
 
 void Path::setAttr(QString value, qint8 index)

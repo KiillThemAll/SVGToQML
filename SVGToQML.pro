@@ -33,4 +33,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     helpfunc.h \
     path.h \
-    pathmodel.h
+    pathmodel.h \
+    svgitem.h
